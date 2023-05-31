@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification Sender</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-align: center;
+            background: linear-gradient(to top,
+                    rgba(128, 12, 229, 0.5),
+                    rgba(255, 255, 255, 0.5));
+            padding: 50px;
+            overflow: hidden;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        input,
+        textarea {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            padding: 5px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #075112;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Notificaciones con el FIREBASE</h1>
+    <form id="send-notification-form">
+        <input type="text" id="token" placeholder="Token" required>
+        <input type="text" id="title" placeholder="Titulo de la Notificación" required>
+        <textarea id="body" rows="5" placeholder="Contenido de la notificación" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <script>
+        document.getElementById('send-notification-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const token = document.getElementById('token').value;
+            const title = document.getElementById('title').value;
+            const body = document.getElementById('body').value;
+
+            const response = await fetch('/send-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token, title, body })
+            });
+
+            if (response.status === 200) {
+                alert('Notificacione Envida Correctamente');
+            } else {
+                alert('Error al Enviar la Notificacion');
+            }
+        });
+    </script>
+</body>
+
+</html>
